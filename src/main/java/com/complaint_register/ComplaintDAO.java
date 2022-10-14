@@ -1,6 +1,7 @@
 package com.complaint_register;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,5 +33,24 @@ public class ComplaintDAO {
 		preparedStatement.setString(5, Status.PENDING.toString());
 		preparedStatement.executeUpdate();
 		return "Complaint Added Successfully.";
+	}
+	
+	public Complaint searchComplaint(String complaintID) throws ClassNotFoundException, SQLException {
+		Complaint complaint = null;
+		connection = ConnectionHelper.getConnection();
+		preparedStatement = connection.prepareStatement("Select * from Complaint where ComplaintId=?");
+		preparedStatement.setString(1, complaintID);
+		ResultSet resultSet = preparedStatement.executeQuery();
+		
+		if (resultSet.next()) {
+			complaint = new Complaint();
+			complaint.setId(complaintID);
+			complaint.setComplaintType(resultSet.getString("complaintType"));
+			complaint.setcDescription(resultSet.getString("cDescription"));
+			complaint.setComplaintDate(resultSet.getDate("complaintDate"));
+			complaint.setSeverity(resultSet.getString("severity"));
+			complaint.setStatus(Status.valueOf(resultSet.getString("status")));
+		}
+		return complaint;
 	}
 }
