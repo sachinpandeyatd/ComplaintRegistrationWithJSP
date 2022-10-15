@@ -9,6 +9,11 @@ public class Complaint {
 	private Date complaintDate;
 	private String severity;
 	private Status status;
+	private Date ResolveDate;
+	private String ResolvedBy;
+	private String Comments;
+	private String Severity;
+	private int Tat;
 	
 	
 	public Complaint() {
@@ -18,7 +23,7 @@ public class Complaint {
 
 
 	public Complaint(String id, String complaintType, String cDescription, Date complaintDate, String severity,
-			Status status) {
+			Status status, Date resolveDate, String resolvedBy, String comments, String severity2, int tat) {
 		super();
 		this.id = id;
 		this.complaintType = complaintType;
@@ -26,13 +31,20 @@ public class Complaint {
 		this.complaintDate = complaintDate;
 		this.severity = severity;
 		this.status = status;
+		ResolveDate = resolveDate;
+		ResolvedBy = resolvedBy;
+		Comments = comments;
+		Severity = severity2;
+		Tat = tat;
 	}
 
 
 	@Override
 	public String toString() {
 		return "Complaint [id=" + id + ", complaintType=" + complaintType + ", cDescription=" + cDescription
-				+ ", complaintDate=" + complaintDate + ", severity=" + severity + ", status=" + status + "]";
+				+ ", complaintDate=" + complaintDate + ", severity=" + severity + ", status=" + status
+				+ ", ResolveDate=" + ResolveDate + ", ResolvedBy=" + ResolvedBy + ", Comments=" + Comments
+				+ ", Severity=" + Severity + ", Tat=" + Tat + "]";
 	}
 
 
@@ -94,4 +106,43 @@ public class Complaint {
 	public void setStatus(Status status) {
 		this.status = status;
 	}	
+
+	public Date getResolveDate() {
+		return ResolveDate;
+	}
+	
+	
+	public void setResolveDate(Date resolveDate) {
+		ResolveDate = resolveDate;
+	}
+	
+	
+	public String getResolvedBy() {
+		return ResolvedBy;
+	}
+	
+	
+	public void setResolvedBy(String resolvedBy) {
+		ResolvedBy = resolvedBy;
+	}
+	
+	
+	public String getComments() {
+		return Comments;
+	}
+	
+	
+	public void setComments(String comments) {
+		Comments = comments;
+	}
+	
+	
+	public int getTat() {
+		return Tat;
+	}
+	
+	
+	public void setTat(int tat) {
+		Tat = tat;
+	}
 }

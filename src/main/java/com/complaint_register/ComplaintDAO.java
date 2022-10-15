@@ -5,6 +5,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ComplaintDAO {
 	Connection connection;
@@ -52,5 +54,59 @@ public class ComplaintDAO {
 			complaint.setStatus(Status.valueOf(resultSet.getString("status")));
 		}
 		return complaint;
+	}
+	
+	
+	//Resolved
+	public String resolved(Complaint complain) throws ClassNotFoundException, SQLException {
+		connection = ConnectionHelper.getConnection();
+		String cmd="insert into resolve(ComplaintID,ResolvedBy, complaintDate, Comments)values(?,?,?,?)";
+		preparedStatement = connection.prepareStatement(cmd);
+		preparedStatement.setString(1,complain.getId());
+		preparedStatement.setString(2, complain.getResolvedBy());
+		preparedStatement.setDate(3, (Date)complain.getComplaintDate());
+		preparedStatement.setString(4, complain.getComments());
+		preparedStatement.executeUpdate();
+		
+		String cmds="update complaint set Status=? where ComplaintID=?";
+		preparedStatement = connection.prepareStatement(cmds);
+		preparedStatement.setString(1, Status.APPROVED.toString());
+		preparedStatement.setString(2, complain.getId());
+		preparedStatement.executeUpdate();
+		
+		return "Complaint Resolved Successfully.";
+		
+	}
+	
+	public Complaint[] showResolved() throws SQLException, ClassNotFoundException {
+		connection = ConnectionHelper.getConnection();
+		String cmd = "select * from resolve";
+		preparedStatement = connection.prepareStatement(cmd);
+		List<Complaint> complainList = new ArrayList();
+		ResultSet rs = preparedStatement.executeQuery();
+		Complaint complains = null;
+		while(rs.next()) {
+			complains= new Complaint();
+			int tat = tat(rs.getDate("ComplaintDate"), rs.getDate("ResolveDate"));
+			complains.setId(rs.getString("ComplaintID"));
+			complains.setComplaintDate(rs.getDate("ComplaintDate"));
+			complains.setResolveDate(rs.getDate("ResolveDate"));
+			complains.setResolvedBy(rs.getString("ResolvedBy"));
+			complains.setComments(rs.getString("comments"));
+			complains.setTat(tat);
+			complainList.add(complains);
+			
+		}
+		return complainList.toArray(new Complaint[complainList.size()]);
+	
+	}
+	
+	public int tat(Date complaintDate, Date resolvedDate) {
+		Date today=(Date)complaintDate ;
+		Date today1=(Date) resolvedDate;
+		long day1=today1.getTime()-today.getTime();
+		 long m = day1 / (1000 * 24 * 60 * 60);
+		 int tat=(int)m;
+		return tat;
 	}
 }
