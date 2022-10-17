@@ -8,8 +8,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Show Resolved</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<title>Show Resolved</title>
+	<style>
+		#red{
+			background-color: red;
+		}
+		#blue{
+			background-color: blue;
+		}
+	</style>
 </head>
 <body>
 	<jsp:include page="connection.jsp" />
@@ -37,12 +45,21 @@
 				pageContext.setAttribute("tat", tat);
 			%>
 			<tr>
+				
 				<td><c:out value="${resolve.complaintId }"></c:out></td>
 				<td><c:out value="${resolve.complaintDate }"></c:out></td>
 				<td><c:out value="${resolve.resolveDate }"></c:out></td>
 				<td><c:out value="${resolve.resolvedBy }"></c:out></td>
 				<td><c:out value="${resolve.comments }"></c:out></td>
-				<td><c:out value="${tat }"></c:out></td>
+				<c:if test="${tat < 7}">
+					<td><c:out value="${tat }"></c:out></td>
+				</c:if>
+				<c:if test="${tat >=7 && tat <= 10 }">
+					<td id="blue"><c:out value="${tat }"></c:out></td>
+				</c:if>
+				<c:if test="${tat > 10}">
+					<td id="red"><c:out value="${tat }"></c:out></td>					
+				</c:if>
 			</tr>
 		</c:forEach>
 	</table>
