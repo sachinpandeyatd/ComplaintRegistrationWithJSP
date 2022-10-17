@@ -30,7 +30,9 @@
 				<td><c:out value="${complaint.ComplaintDate }"></c:out></td>
 				<td><c:out value="${complaint.Severity }"></c:out></td>
 				<td><c:out value="${complaint.status }"></c:out></td>
-				<td><a href="resolve-complaint.jsp?complaintId=${complaintId }"><button>Resolve</button></a></td>
+				<c:if test="${complaint.status == 'PENDING' }">
+					<td><a href="resolve-complaint.jsp?complaintId=${complaintId }"><button>Resolve</button></a></td>
+				</c:if>
 			</tr>
 		</c:forEach>
 	</table>
