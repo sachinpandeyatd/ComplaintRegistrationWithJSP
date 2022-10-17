@@ -12,23 +12,12 @@
 <body>
 	<%
 		Complaint complain = null;
-		if(request.getParameter("complaintId") == null){
-	%>
-		<form action="">
-			<input type="text" name="complaintId" placeholder="ID"><br>
-			<input type="submit" value="SUBMIT">
-		</form>
-
-		<%
-		}
 	
 		if(request.getParameter("complaintId") != null){
 			String complaintId= request.getParameter("complaintId");
 			complain = new ComplaintDAO().searchComplaint(complaintId);
 		}
-	%>
 	
-	<%
 		if(complain != null ){
 	%>
 		<form action="">
@@ -48,7 +37,8 @@
 			complain.setResolvedBy(request.getParameter("resolvedBy"));
 			complain.setComments(request.getParameter("comments"));
 			out.println(new ComplaintDAO().resolved(complain));
-		}
 	%>
+	<jsp:forward page="show-complains.jsp" />
+	<% } %>
 </body>
 </html>

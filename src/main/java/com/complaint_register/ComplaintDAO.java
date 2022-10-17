@@ -24,6 +24,28 @@ public class ComplaintDAO {
 		return complaintID;
 	}
 	
+	public List<Complaint> showComplains() throws ClassNotFoundException, SQLException {
+		List<Complaint> complaintList = new ArrayList<Complaint>();
+		Complaint complaint = null;
+		
+		connection = ConnectionHelper.getConnection();
+		preparedStatement = connection.prepareStatement("SELECT * FROM complaint");
+		ResultSet resultSet = preparedStatement.executeQuery();
+		
+		while (resultSet.next()) {
+			complaint = new Complaint();
+			complaint.setId(resultSet.getString("complaintId"));
+			complaint.setComplaintType(resultSet.getString("complaintType"));
+			complaint.setcDescription(resultSet.getString("cDescription"));
+			complaint.setComplaintDate(resultSet.getDate("ComplaintDate"));
+			complaint.setSeverity(resultSet.getString("Severity"));
+			complaint.setStatus(Status.valueOf(resultSet.getString("status")));
+			
+			complaintList.add(complaint);
+		}
+		return complaintList;
+	}
+	
 	public String addComplaint(Complaint complaint) throws ClassNotFoundException, SQLException {
 		String complaintID = complaintID();
 		connection = ConnectionHelper.getConnection();
